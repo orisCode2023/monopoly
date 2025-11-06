@@ -52,6 +52,8 @@ class Board:
     return self.board
 
      
+     
+    
   def check_boarders(self, current_location, steps_number):
     return (current_location + steps_number) % len(self.board)
   
