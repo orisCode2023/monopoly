@@ -25,8 +25,8 @@ class Property(Tile):
         
 
 class Rail(Property):
-    def __init__(self, name, tile_type, available, price_purch, rent):
-        super().__init__(name, tile_type, price_purch, available, rent)
+    def __init__(self, name, tile_type, available, price_purch, rent, city=None):
+        super().__init__(name, tile_type, price_purch, available, rent, city=None)
     
 
 class Bonus(Tile):
@@ -39,9 +39,9 @@ class Bonus(Tile):
 
 
 
-class Tax(Tile):
+class Tax(Bonus):
     def __init__(self, name, tile_type, available, amount):
-        super().__init__(name, tile_type, available)
+        super().__init__(name, tile_type, available, amount)
         
     def __str__(self):
         return super().__str__(), f"Pay: {self.amount}"

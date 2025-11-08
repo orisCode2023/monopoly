@@ -60,6 +60,9 @@ class Board:
 
        
 
+# b = Board()
+# b1 = b.create_board()
+# print(b1[23].tile)
 
 
 
