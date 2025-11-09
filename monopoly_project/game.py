@@ -5,10 +5,10 @@ from player import ComputerPlayer, Player
 class Game:
     def __init__(self):
         self.board = Board()
-        # self.player = Player(input("Enter your name: "))
-        self.player = Player("ori")
+        self.player = Player("user")
         self.AI = ComputerPlayer()
-       
+
+
     def roll_to_start(self):
         while True:
             print(f"{self.player.name} roll the dice ")
@@ -26,77 +26,94 @@ class Game:
             else:
                 continue
     
-    def show_menu(self, player: Player, location:int):
-        print(self.board.board[location].name)
+
+    def show_menu(self, player: Player, location:int, board: list[object]):
+        print(board[location].name)
         print(player)
-     
-    def move_on_board(self, player: Player, ):
+
+
+    def move_on_board(self, player: Player):
         roll = player.roll_the_dice()
         print(f"The dice rolled {roll}")
         return player.move(roll)
     
-    def tranfer_ownership(self, location: int, player: Player):
-        price = self.board.board[location].price
-        player.payment(price)
-        self.board.board[location].available = False
-        player.propertys.append(self.board.board[location])
 
-    
-        
-    def player_choice(self, location:int , player: Player):
+    def tranfer_ownership(self, location: int, player: Player, board: list[object]):
+        price = board[location].price
+        player.payment(price)
+        board[location].available = False
+        player.propertys.append(board[location])   
+
+       
+    def player_choice(self, location:int , player: Player, board: list[object]):
         choose = player.choice()
         if choose == "s":
             return 
         else:
-            if self.board.board[location].is_available():
-                print(f"the price is {self.board.board[location].price}")
+            if board[location].is_available():
+                print(f"the price is {board[location].price}")
                 answer = input("Do you want to purch? ")
                 if answer == "no":
                     return
                 else:
-                    self.tranfer_ownership(location, player)
+                    self.tranfer_ownership(location, player, board)
                         
-    def handel_tile(self, tile, player: Player):
-        match tile.tile:
+   
+        
+    def handel_tile(self, board: list[object], player: Player, location :int):
+        match board[location].tile:
             case "property":
-                if isinstance(player, ComputerPlayer):
-                    if player.check_money():
-                        self.tranfer_ownership(self.board.board.index(tile), self.AI)
+                if board[location].is_available():
+                    if isinstance(player, ComputerPlayer):
+                        if player.is_buy(board, player, location):
+                            self.tranfer_ownership(location, self.AI, board)
+                        else:
+                            print("The AI did not purch anything")
+                    else:
+                        self.player_choice(location, player, board)
                 else:
-                    self.player_choice(self.board.board.index(tile), player)
+                    # player.payment(board[location].rent)
+                    pass
             case "start":
+                print("Congratulation, you stept on the start board so you get a 400 $ ")
                 player.get_payment(400)
             case "tax":
-                player.payment(tile.amount)
+                player.payment(board[location].amount)
+                print(f"You need to pay {board[location].amount}")
             case "bonus":
-                player.get_payment(tile.amount)
+                player.get_payment(board[location].amount)
+                print(f"Congratulation, you got a bonus of {board[location].amount}")
             case "end":
-                print("This is the last tile in the board ")
+                print("This is the last board in the board ")
             case "go to jail":
-                player.location = self.board.board["jail"]
+                print("Sorry, you need to spent two rounds in jail")
+                player.location = board["jail"]
             case "jail":
                 print("This is just visiting no need to stay ")
         print(player)
   
-    def round(self, player: Player):
+
+    def round(self, player: Player, board: list[object]):
         current_location = self.move_on_board(player)
-        self.show_menu(player, current_location)
-        self.handel_tile(self.board.board[current_location], player)
+        self.show_menu(player, current_location, board)
+        self.handel_tile(board, player, current_location)
                  
             
-    def run_game(self):
+    def run_game(self):  
         start_first = self.roll_to_start()
         rounds = 1
-        self.board.board = self.board.create_board()
+        game_board = self.board.create_board()
         while rounds <= 20:
             print(f"----- Round {rounds} -----")
             if isinstance(start_first, ComputerPlayer):
-                self.round(self.AI)
-                self.round(self.player)
+                self.round(self.AI, game_board)
+                print("user turn")
+                self.round(self.player, game_board)
                
             else:
-                self.round(self.player)
-                self.round(self.AI)
+                self.round(self.player, game_board)
+                print("AI turn")
+                self.round(self.AI, game_board)
             rounds += 1
 
 

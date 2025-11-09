@@ -10,7 +10,7 @@ tiles_data = [
     {"name": "North Rail Station", "type": "property", "price": 200, "rent": 50, "city": None},
 
     # Jerusalem
-    {"name": "The Kennesset", "type": "property", "price": 360, "rent": 140, "city": "Jerusalem"},
+    {"name": "The Knesset", "type": "property", "price": 360, "rent": 140, "city": "Jerusalem"},
     {"name": "Jaffa street", "type": "property", "price": 380, "rent": 150, "city": "Jerusalem"},
     {"name": "Malha Mall", "type": "property", "price": 400, "rent": 160, "city": "Jerusalem"},
 

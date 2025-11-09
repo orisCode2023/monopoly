@@ -1,4 +1,3 @@
-from itertools import count
 import random
 
 
@@ -31,7 +30,7 @@ class Player:
     
     def choice(self):
         return input("Enter S to skip the turn or P to purches ")
-    
+ 
     def __str__(self):
         lst = []
         for city in self.propertys:
@@ -47,31 +46,31 @@ class ComputerPlayer(Player):
     def check_money(self):
         return self.money >= 200
     
-    # def check_other_player_property(self, other: Player, board):
-    #     return count (other.propertys[city] == board.city) <= 2
+    def check_other_player_property(self, other: Player, board:list[object], location):
+        counter  = 0
+        for prop in self.propertys:
+            if prop.city == board[location].city:
+                counter += 1
+        return counter <= 2
     
-    # def calc_avg_price(self, board):
-    #     total = counter = 0
-    #     for tile in board:
-    #         if tile.available is True:
-    #             counter += 1
-    #             total += tile.price_purch
-    #     return total / counter
+    def calc_avg_price(self, board: list[object]):
+        total = counter = 0
+        for tile in board:
+            if tile.available is True:
+                counter += 1
+                total += tile.price
+        return total / counter
     
-    # def is_cheap(self, board):
-    #     return board.price <= self.calc_avg_price(board) 
+    def is_cheap(self, board: list[object], location):
+        return board[location].price <= self.calc_avg_price(board) 
     
-    # def is_buy(self, board, other):
-    #     return self.is_cheap(board) and self.check_other_player_property(other, board) and self.check_money()
+    def is_buy(self, board: list[object], other: Player, location):
+        return self.is_cheap(board, location) and self.check_other_player_property(other, board, location) and self.check_money()
             
-    # def is_buy(self, board, other):
-    #     return self.check_money()
 
     
 # p = Player("aksjdf")
 # a = ComputerPlayer()
 
-# print(isinstance(p, ComputerPlayer))
-# print(not isinstance(a, ComputerPlayer))
 
  

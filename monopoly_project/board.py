@@ -42,7 +42,7 @@ class Board:
           case "property":
             if "Rail" not in tile["name"]:
               tile["name"] = Property(tile["name"], tile["type"], True, tile["price"], tile["rent"], tile["city"])
-              self.board.append(tile["name"])
+              self.board.append(tile["name"]) 
               
             else:
               tile["name"] = Rail(tile["name"], tile["type"], True, tile["price"], tile["rent"], tile["city"])
@@ -62,8 +62,7 @@ class Board:
 
 # b = Board()
 # b1 = b.create_board()
-# print(b1[23].tile)
-
+# print(b1[5].price)
 
 
 
